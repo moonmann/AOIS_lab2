@@ -31,7 +31,7 @@ def disjunction(expression_1, expression_2, values_dict):
     return parse_expression(expression_1, values_dict) or parse_expression(expression_2, values_dict)
 
 
-def parse(expression, char):
+def parse_part_expression(expression, char):
     bracket = 0
     for i in reversed(range(len(expression))):
         if expression[i] == "(":
@@ -55,16 +55,16 @@ def parse_expression(expression, values_dict):
     if len(expression) == 1:
         return values_dict[expression]
 
-    if parse(expression, '+') != -1:
-        num_char = parse(expression, '+')
+    if parse_part_expression(expression, '+') != -1:
+        num_char = parse_part_expression(expression, '+')
         return disjunction(expression[0:num_char], expression[num_char + 1:], values_dict)
 
-    if parse(expression, '*') != -1:
-        num_char = parse(expression, '*')
+    if parse_part_expression(expression, '*') != -1:
+        num_char = parse_part_expression(expression, '*')
         return conjunction(expression[0:num_char], expression[num_char + 1:], values_dict)
 
-    if parse(expression, '!') != -1:
-        num_char = parse(expression, '!')
+    if parse_part_expression(expression, '!') != -1:
+        num_char = parse_part_expression(expression, '!')
         return negation(expression[num_char + 1:], values_dict)
 
 
